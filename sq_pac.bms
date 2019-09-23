@@ -1,0 +1,28 @@
+idstring "\x82\xcf\x82\xad"
+get file_count long
+get data_start_wz longlong
+for i = 0 < file_count
+	set block_max = 0x110
+	set sub_start_wz = data_start_wz
+	
+	set info_table_wz = block_max
+	set name_wz = block_max
+	set info_i = i
+	math info_i + 1
+	
+	math info_table_wz * info_i
+	math name_wz * i
+	math name_wz + 16
+	
+	goto info_table_wz
+	get data_org_wz longlong
+	get data_size long
+	get name_size long
+	
+	goto name_wz
+	getdstring f_name name_size
+	
+	math sub_start_wz + data_org_wz
+	
+	log f_name sub_start_wz data_size
+next i
